@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script>
+        async function bookAppointment() {
+            console.log("bookAppointment() function triggered.");
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+            const doctor = document.getElementById("doctor").value;
+            const date = document.getElementById("appointment-date").value;
+            const time = document.getElementById("appointment-time").value;
+            const statusMessage = document.getElementById("status-message");
+            const appointmentNumberBox = document.getElementById("appointment-number");
+
+            if (!name || !email || !phone || !doctor || !date || !time) {
+                statusMessage.textContent = "Please fill out all the fields!";
+                statusMessage.style.color = "#ff4d4d";
+                return;
+            }
+
+            const appointmentData = { name, email, phone, doctor, date, time };
+
+            try {
+                const response = await fetch("http://localhost:5002/book-appointment", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(appointmentData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    statusMessage.textContent = `Appointment booked successfully! Your Appointment Number: ${result.appointmentNumber}`;
+                    statusMessage.style.color = "#4caf50";
+
+                    // Store the appointment number for later use
+                    localStorage.setItem("lastAppointmentNumber", result.appointmentNumber);
+
+                    // Update the appointment number in the frontend
+                    updateAppointmentNumber(result.appointmentNumber);
+                } else {
+                    statusMessage.textContent = result.error;
+                    statusMessage.style.color = "#ff4d4d";
+                }
+            } catch (error) {
+                console.error("Error booking appointment:", error);
+                statusMessage.textContent = "An error occurred!";
+                statusMessage.style.color = "#ff4d4d";
+            }
+        }
+
+        function updateAppointmentNumber(appointmentNumber) {
+            const appointmentNumberBox = document.getElementById("appointment-number");
+            appointmentNumberBox.textContent = `Appointment #${appointmentNumber}`;
+            appointmentNumberBox.style.display = "flex";
+        }
+
+        // Load last appointment number on page load
+        window.onload = function() {
+            const lastAppointmentNumber = localStorage.getItem("lastAppointmentNumber");
+            if (lastAppointmentNumber) {
+                updateAppointmentNumber(lastAppointmentNumber);
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.querySelector(".navbar");
+            let navbarTimeout;
+
+            function showNavbar() {
+                navbar.style.opacity = "1";
+                clearTimeout(navbarTimeout);
+                navbarTimeout = setTimeout(() => {
+                    navbar.style.opacity = "0";
+                }, 1000);
+            }
+
+            document.addEventListener("mousemove", showNavbar);
+            navbarTimeout = setTimeout(() => {
+                navbar.style.opacity = "0";
+            }, 1000);
+        });
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare System - Appointment </title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 50%;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .appointment-box {
+            position: absolute;
+            right: -220px;
+            top: 5%;
+            width: 180px;
+            height: 90px;
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 22px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .appointment-box:hover {
+            transform: scale(1.08);
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6); /* Transparent navbar */
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 1;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .navbar a:hover {
+            background: white;
+            color: #007BFF;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">Home</a>
+        <a href="Appiontment.html">Book Appointment</a>
+        <a href="Check Appointment.html">Appointment Status</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html">Login</a>
+    </div>
+    <div class="container">
+        <h2>Book Your Appointment</h2>
+        <form onsubmit="return false;">
+            <input type="text" id="name" placeholder="Enter Patient Name" required>
+            <input type="email" id="email" placeholder="Enter Patient Email" required>
+            <input type="tel" id="phone" placeholder="Enter Patient Phone Number" required>
+            <select id="doctor" required>
+                <option value="" disabled selected>Select Doctor</option>
+                <option value="Dr. John Doe">Dr. John Doe (Cardiologist)</option>
+                <option value="Dr. Sarah Smith">Dr. Sarah Smith (Dermatologist)</option>
+                <option value="Dr. Emily Jones">Dr. Emily Jones (Pediatrician)</option>
+                <option value="Dr. Dandeep">Dr. Dandeep</option>
+            </select>
+            <input type="date" id="appointment-date" required>
+            <select id="appointment-time" required>
+                <option value="" disabled selected>Select Appointment Time</option>
+                <option value="01:00">1:00 AM</option>
+                <option value="01:30">1:30 AM</option>
+                <option value="02:00">2:00 AM</option>
+                <option value="02:30">2:30 AM</option>
+                <option value="03:00">3:00 AM</option>
+                <option value="03:30">3:30 AM</option>
+                <option value="04:00">4:00 AM</option>
+                <option value="04:30">4:30 AM</option>
+                <option value="05:00">5:00 AM</option>
+                <option value="05:30">5:30 AM</option>
+                <option value="06:00">6:00 AM</option>
+                <option value="06:30">6:30 AM</option>
+                <option value="07:00">7:00 AM</option>
+                <option value="07:30">7:30 AM</option>
+                <option value="08:00">8:00 AM</option>
+                <option value="08:30">8:30 AM</option>
+                <option value="09:00">9:00 AM</option>
+                <option value="09:30">9:30 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="10:30">10:30 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="11:30">11:30 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="12:30">12:30 PM</option>
+                <option value="13:00">1:00 PM</option>
+                <option value="13:30">1:30 PM</option>
+                <option value="14:00">2:00 PM</option>
+                <option value="14:30">2:30 PM</option>
+                <option value="15:00">3:00 PM</option>
+                <option value="15:30">3:30 PM</option>
+                <option value="16:00">4:00 PM</option>
+                <option value="16:30">4:30 PM</option>
+                <option value="17:00">5:00 PM</option>
+                <option value="17:30">5:30 PM</option>
+                <option value="18:00">6:00 PM</option>
+                <option value="18:30">6:30 PM</option>
+                <option value="19:00">7:00 PM</option>
+                <option value="19:30">7:30 PM</option>
+                <option value="20:00">8:00 PM</option>
+                <option value="20:30">8:30 PM</option>
+                <option value="21:00">9:00 PM</option>
+                <option value="21:30">9:30 PM</option>
+                <option value="22:00">10:00 PM</option>
+                <option value="22:30">10:30 PM</option>
+                <option value="23:00">11:00 PM</option>
+                <option value="23:30">11:30 PM</option>
+            </select>
+            <button type="button" onclick="bookAppointment()">Book Appointment</button>
+            <p id="status-message"></p>
+        </form>
+        <div id="appointment-number" class="appointment-box"></div>
+    </div>
+</body>
+</html>

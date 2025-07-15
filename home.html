@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon"  type="image/x-icon"   href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare System - Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: url('gr.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
+        }
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6); /* Transparent navbar */
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 1;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .navbar a:hover {
+            background: white;
+            color: #007BFF;
+            border-radius: 5px;
+        }
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 220px 20px 150px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.2); /* More transparent */
+            padding: 10px;
+            border-radius: 10px;
+            color: rgb(255, 255, 255); /* Changed to black */
+        }
+        .hero p {
+            font-size: 20px;
+            background: rgb(140, 176, 86); /* More transparent */
+            padding: 10px;
+            border-radius: 5px;
+            color: rgb(255, 255, 255); /* Changed to black */
+        }
+        /* White Box */
+        .content-container {
+            text-align: center;
+            padding: 40px 20px;
+            background: white; /* Restored white color */
+            border-radius: 10px;
+            margin: -50px auto; /* Adjusted positioning */
+            width: 30%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+        .section h2 {
+            font-size: 35px;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+        .footer {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: black; /* Changed to black */
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.querySelector(".navbar");
+            let navbarTimeout;
+
+            function showNavbar() {
+                navbar.style.opacity = "1";
+                clearTimeout(navbarTimeout);
+                navbarTimeout = setTimeout(() => {
+                    navbar.style.opacity = "0";
+                }, 1000); // 1 second delay before hiding
+            }
+
+            // Show navbar when mouse moves
+            document.addEventListener("mousemove", showNavbar);
+
+            // Initially hide the navbar after 1 second if no movement
+            navbarTimeout = setTimeout(() => {
+                navbar.style.opacity = "0";
+            }, 1000);
+        });
+    </script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="home.html">Home</a>
+        <a href="Appiontment.html">Book Appointment</a>
+        <a href="Check Appointment.html">Appointment Status</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html">Login</a>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to Our Healthcare System</h1>
+        <p>Your Health, Our Priority. Book Appointments with Expert Doctors.</p>
+    </div>
+
+    <!-- Appointment & About Section -->
+    <div class="content-container">
+        <div class="section">
+            <h2>Book an Appointment</h2>
+            <a href="Appiontment.html" class="btn">Book Now</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Healthcare System. All Rights Reserved.
+    </div>
+
+</body>
+</html>

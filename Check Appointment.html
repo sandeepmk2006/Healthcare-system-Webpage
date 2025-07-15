@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare System - Appointment Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .appointment-list {
+            margin-top: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+            border-top: 2px solid #81c784;
+            padding-top: 10px;
+        }
+
+        .appointment-item {
+            background-color: #e8f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .appointment-id {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .appointment-info {
+            text-align: left;
+            font-size: 14px;
+            color: #555;
+            flex-grow: 1;
+            margin-left: 12px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6); /* Transparent navbar */
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 1;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .navbar a:hover {
+            background: white;
+            color: #007BFF;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.querySelector(".navbar");
+            let navbarTimeout;
+
+            function showNavbar() {
+                navbar.style.opacity = "1";
+                clearTimeout(navbarTimeout);
+                navbarTimeout = setTimeout(() => {
+                    navbar.style.opacity = "0";
+                }, 1000); // 1 second delay before hiding
+            }
+
+            // Show navbar when mouse moves
+            document.addEventListener("mousemove", showNavbar);
+
+            // Initially hide the navbar after 1 second if no movement
+            navbarTimeout = setTimeout(() => {
+                navbar.style.opacity = "0";
+            }, 1000);
+
+            async function checkAppointmentStatus() {
+                const inputId = document.getElementById('appointment-id-input').value;
+                const appointmentList = document.getElementById('appointment-list');
+                appointmentList.innerHTML = '';
+
+                if (!inputId) {
+                    appointmentList.innerHTML = '<p>Please enter a valid appointment number.</p>';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`http://localhost:5002/get-appointment/${inputId}`);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        const item = document.createElement('div');
+                        item.classList.add('appointment-item');
+                        item.innerHTML = `
+                            <div class="appointment-id">#${data.appointmentNumber}</div>
+                            <div class="appointment-info">
+                                <div><strong>${data.name}</strong> with ${data.doctor}</div>
+                                <div>${data.date} at ${data.time}</div>
+                                <div>Email: ${data.email}</div>
+                                <div>Phone: ${data.phone}</div>
+                            </div>
+                        `;
+                        appointmentList.appendChild(item);
+                    } else {
+                        appointmentList.innerHTML = `<p>${data.error}</p>`;
+                    }
+                } catch (error) {
+                    appointmentList.innerHTML = '<p>Error fetching appointment details.</p>';
+                }
+            }
+
+            window.checkAppointmentStatus = checkAppointmentStatus;
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">Home</a>
+        <a href="Appiontment.html">Book Appointment</a>
+        <a href="Check Appointment.html">Appointment Status</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html">Login</a>
+    </div>
+    <div class="container">
+        <h2>Check Appointment Status</h2>
+        <input type="number" id="appointment-id-input" placeholder="Enter Appointment Number" required>
+        <button onclick="checkAppointmentStatus()">Check Status</button>
+
+        <div id="appointment-list" class="appointment-list"></div>
+    </div>
+</body>
+</html>

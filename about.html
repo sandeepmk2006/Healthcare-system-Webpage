@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare System - About Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            width: 1200px;
+            text-align: center;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6); /* Transparent navbar */
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 1;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .navbar a:hover {
+            background: white;
+            color: #007BFF;
+            border-radius: 5px;
+        }
+
+        h1 {
+            color: #4caf50;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-member {
+            background-color: #e8f5e9;
+            padding: 24px;
+            border-radius: 12px;
+            width: 45%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            color: #388e3c;
+            font-weight: bold;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .specialization {
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .hospital-info {
+            margin-top: 30px;
+            background-color: #f1f8e9;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 20px;
+            color: #2e7d32;
+            text-align: left;
+            line-height: 1.8;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .highlight {
+            color: #388e3c;
+            font-weight: bold;
+        }
+    </style>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.querySelector(".navbar");
+            let navbarTimeout;
+
+            function showNavbar() {
+                navbar.style.opacity = "1";
+                clearTimeout(navbarTimeout);
+                navbarTimeout = setTimeout(() => {
+                    navbar.style.opacity = "0";
+                }, 1000); // 1 second delay before hiding
+            }
+
+            // Show navbar when mouse moves
+            document.addEventListener("mousemove", showNavbar);
+
+            // Initially hide the navbar after 1 second if no movement
+            navbarTimeout = setTimeout(() => {
+                navbar.style.opacity = "0";
+            }, 1000);
+        });
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">Home</a>
+        <a href="Appiontment.html">Book Appointment</a>
+        <a href="Check Appointment.html">Appointment Status</a>
+        <a href="about.html">About Us</a>
+        <a href="login.html">Login</a>
+    </div>
+    <div class="container">
+        <h1>About Us</h1>
+        <p>Welcome to our Healthcare Appointment System! We are dedicated to providing you with a seamless and efficient way to book and manage your medical appointments. Our team of professionals is committed to ensuring you receive the best care possible through state-of-the-art facilities and highly trained medical staff.</p>
+
+        <div class="team">
+            <div class="team-member">
+                Dr. John Doe – Cardiologist
+                <div class="specialization">Expert in diagnosing and treating heart-related diseases with over 15 years of experience in cardiology. Dr. John has performed over 500 successful heart surgeries and is known for his patient-centered approach and innovative treatment plans.</div>
+            </div>
+            <div class="team-member">
+                Dr. Sarah Smith – Dermatologist
+                <div class="specialization">Specialist in skin health, treating acne, eczema, and complex skin conditions with advanced techniques. Dr. Sarah has been featured in multiple international dermatology conferences and has developed several proprietary skincare treatments.</div>
+            </div>
+            <div class="team-member">
+                Dr. Emily Jones – Pediatrician
+                <div class="specialization">Dedicated to children's health, providing care from infancy to adolescence with a gentle and caring approach. Dr. Emily has a decade of experience working with children and has helped improve child health outcomes through innovative care models.</div>
+            </div>
+            <div class="team-member">
+                Dr. Dandeep – General Physician
+                <div class="specialization">Experienced in diagnosing and treating a wide range of medical conditions with a focus on patient well-being. Dr. Dandeep has over 20 years of experience and is known for his holistic approach to treatment, focusing on both physical and mental health.</div>
+            </div>
+        </div>
+
+        <div class="hospital-info">
+            <h2>Hospital Information</h2>
+            <p><span class="highlight">Established:</span> 1998</p>
+            <p><span class="highlight">Location:</span> 123 Healthcare Street, City, Country</p>
+            <p><span class="highlight">Number of Staff:</span> Over 4 doctors and 10 medical assistants</p>
+            <p><span class="highlight">Specialized Departments:</span> Cardiology, Dermatology, Pediatrics, General Medicine, Orthopedics, Neurology, and more.</p>
+            <p><span class="highlight">Facilities:</span> 24/7 Emergency Room, Modern Operation Theaters, Intensive Care Units (ICU), Outpatient Clinics, and Advanced Diagnostic Centers.</p>
+        </div>
+    </div>
+</body>
+</html>
